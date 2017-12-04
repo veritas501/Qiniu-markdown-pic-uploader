@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
-using qiniu_upload_csharp;
-
+using Qiniu.Storage;
 namespace qiniu_upload_csharp
 {
 	public partial class Form1 : Form
@@ -37,13 +36,13 @@ namespace qiniu_upload_csharp
 			RegisterHotKey(this.Handle, 233, MOD_CONTROL | MOD_SHIFT, Keys.V);
 
 			up.InitInfoFromFile();
-			
+
 			textBox_AK.Text = up.QiniuInfo.AK;
 			textBox_SK.Text = up.QiniuInfo.SK;
 			textBox_bucket_name.Text = up.QiniuInfo.BucketName;
-			textBox_bucket_url.Text = up.QiniuInfo.BucketUrl;
 			textBox_folder_name.Text = up.QiniuInfo.FolderName;
 			this.ActiveControl = label_AK;
+
 
 		}
 
@@ -57,12 +56,19 @@ namespace qiniu_upload_csharp
 						//触发热键
 						if (up.UploadAndPaste())
 						{
+
+							UnregisterHotKey(this.Handle, 233);
 							byte VK_CONTROL = 0x11;
 							byte V_key = 0x56;
+							keybd_event(VK_CONTROL, 0, 2, 0);
+							keybd_event(V_key, 0, 2, 0);
 							keybd_event(VK_CONTROL, 0, 0, 0);
 							keybd_event(V_key, 0, 0, 0);
 							keybd_event(VK_CONTROL, 0, 2, 0);
 							keybd_event(V_key, 0, 2, 0);
+							RegisterHotKey(this.Handle, 233, 2 | 4, Keys.V);
+							break;
+
 						}
 					}
 					break;
@@ -75,34 +81,16 @@ namespace qiniu_upload_csharp
 			UnregisterHotKey(this.Handle, 233);
 		}
 
-		private void textBox_AK_TextChanged(object sender, EventArgs e)
+		private void buttonQiniuSave_Click(object sender, EventArgs e)
 		{
-			up.QiniuInfo.AK = textBox_AK.Text;
-			up.UpdateInfo();
-		}
-
-		private void textBox_SK_TextChanged(object sender, EventArgs e)
-		{
-			up.QiniuInfo.SK = textBox_SK.Text;
-			up.UpdateInfo();
-		}
-
-		private void textBox_bucket_name_TextChanged(object sender, EventArgs e)
-		{
-			up.QiniuInfo.BucketName = textBox_bucket_name.Text;
-			up.UpdateInfo();
-		}
-
-		private void textBox_bucket_url_TextChanged(object sender, EventArgs e)
-		{
-			up.QiniuInfo.BucketUrl = textBox_bucket_url.Text;
-			up.UpdateInfo();
-		}
-
-		private void textBox_folder_name_TextChanged(object sender, EventArgs e)
-		{
-			up.QiniuInfo.FolderName = textBox_folder_name.Text;
-			up.UpdateInfo();
+			if (up.CheckInfo(textBox_AK.Text, textBox_SK.Text, textBox_bucket_name.Text))
+			{
+				up.QiniuInfo.AK = textBox_AK.Text;
+				up.QiniuInfo.SK = textBox_SK.Text;
+				up.QiniuInfo.BucketName = textBox_bucket_name.Text;
+				up.QiniuInfo.FolderName = textBox_folder_name.Text;
+				up.UpdateInfo();
+			}
 		}
 	}
 }

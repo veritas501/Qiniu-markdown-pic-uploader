@@ -17,7 +17,12 @@ namespace qiniu_upload_csharp
 {
 	class Uploader
 	{
-
+		[DllImport("user32.dll")]
+		public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint control, Keys vk);
+		[DllImport("user32.dll")]
+		public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+		[DllImport("user32.dll")]
+		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
 		public class QiniuInfoStruc
 		{
 			public string AK;
@@ -30,7 +35,7 @@ namespace qiniu_upload_csharp
 		public QiniuInfoStruc QiniuInfo;
 		public string TmpImagePath;
 		public string ConfigPath;
-
+		private string BucketUrl = "";
 		public Uploader()
 		{
 			TmpImagePath = System.Environment.CurrentDirectory + @"\Clipboard_image.png";
@@ -57,7 +62,7 @@ namespace qiniu_upload_csharp
 
 		public void InitInfoFromFile(string FilePath = "")
 		{
-			if(FilePath == "")
+			if (FilePath == "")
 			{
 				FilePath = ConfigPath;
 			}
@@ -113,11 +118,105 @@ namespace qiniu_upload_csharp
 			}
 		}
 
+		public bool CheckInfo(string AK, string SK, string BucketName)
+		{
+			string TestFileName = "QiniuUploaderTestFile";
+			string TestFilePath = System.Environment.CurrentDirectory + "\\" + TestFileName;
+			string TestFileContent = "Test";
+
+			File.WriteAllText(TestFilePath, TestFileContent);
+
+			Mac mac = new Mac(AK, SK);
+			PutPolicy putPolicy = new PutPolicy
+			{
+				Scope = BucketName
+			};
+			string token = Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
+			Config config = new Config
+			{
+				// 设置上传区域
+				Zone = Zone.ZONE_CN_East,
+				// 设置 http 或者 https 上传
+				UseHttps = true,
+				UseCdnDomains = true,
+				ChunkSize = ChunkUnit.U512K
+			};
+			FormUploader target = new FormUploader(config);
+			HttpResult result = target.UploadFile(TestFilePath, TestFileName, token, null);
+			if (File.Exists(TestFilePath))
+			{
+				File.Delete(TestFilePath);
+			}
+
+			switch (result.RefCode)
+			{
+				case 200:
+					{
+						//delete temp file
+						BucketManager bm = new BucketManager(mac, config);
+						HttpResult deleteRet = bm.Delete(BucketName, TestFileName);
+
+						MessageBox.Show("Information saved!", "Success:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						return true;
+					}
+				case 631:
+					{
+						MessageBox.Show("No such Bucket!", "ERROR:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return false;
+					}
+				case 401:
+					{
+						MessageBox.Show("AK or SK is incorrect!", "ERROR:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return false;
+					}
+			}
+			MessageBox.Show(result.RefText, "ERROR:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return false;
+		}
+
+		public string GetBucketURL()
+		{
+			if (BucketUrl == "")
+			{
+				Mac mac = new Mac(QiniuInfo.AK, QiniuInfo.SK);
+				PutPolicy putPolicy = new PutPolicy
+				{
+					Scope = QiniuInfo.BucketName
+				};
+				string token = Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
+				Config config = new Config
+				{
+					// 设置上传区域
+					Zone = Zone.ZONE_CN_East,
+					// 设置 http 或者 https 上传
+					UseHttps = true,
+					UseCdnDomains = true,
+					ChunkSize = ChunkUnit.U512K
+				};
+
+				BucketManager bm = new BucketManager(mac, config);
+				DomainsResult DomainRet = bm.Domains(QiniuInfo.BucketName);
+				if (DomainRet.Code == 200)
+				{
+					BucketUrl = DomainRet.Text;
+				}
+				else
+				{
+					MessageBox.Show(DomainRet.Text, "ERROR:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return "";
+				}
+			}
+			return BucketUrl.Replace("[\"", "").Replace("\"]", "");
+		}
+
+
 		public bool UploadAndPaste()
 		{
+
 			Image Clipboard_image = Clipboard.GetImage();
 			if (Clipboard_image != null)
 			{
+				Console.WriteLine(DateTime.Now + "have image");
 				Clipboard_image.Save(TmpImagePath);
 				string filename = QiniuInfo.FolderName + "_" + GetMD5HashFromFile(TmpImagePath) + ".png";
 				Mac mac = new Mac(QiniuInfo.AK, QiniuInfo.SK);
@@ -135,10 +234,11 @@ namespace qiniu_upload_csharp
 					UseCdnDomains = true,
 					ChunkSize = ChunkUnit.U512K
 				};
+
 				// 表单上传
 				FormUploader target = new FormUploader(config);
 				HttpResult result = target.UploadFile(TmpImagePath, filename, token, null);
-				string Clipboard_out = "![](http://" + QiniuInfo.BucketUrl + "/" + filename + ")";
+				string Clipboard_out = "![](http://" + GetBucketURL() + "/" + filename + ")";
 				Clipboard.SetText(Clipboard_out);
 				if (File.Exists(TmpImagePath))
 				{
@@ -146,7 +246,10 @@ namespace qiniu_upload_csharp
 				}
 				return true;
 			}
+
+			Console.WriteLine(DateTime.Now + "no image");
 			return false;
+
 		}
 
 	}
