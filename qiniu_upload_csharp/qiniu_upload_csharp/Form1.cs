@@ -35,7 +35,7 @@ namespace qiniu_upload_csharp
 			public string Folder_name;
 		}
 
-		private QiniuInfo i_QiniuInfo;
+		private QiniuInfo i_QiniuInfo = new QiniuInfo();
 
 		public Form1()
 		{
@@ -50,11 +50,34 @@ namespace qiniu_upload_csharp
 
 			if (File.Exists(System.Environment.CurrentDirectory + @"\qiniu.config"))
 			{
-				string In_json = File.ReadAllText(System.Environment.CurrentDirectory + @"\qiniu.config");
+				if (File.Exists(System.Environment.CurrentDirectory + @"\qiniu.config"))
+				{
+					string In_json = File.ReadAllText(System.Environment.CurrentDirectory + @"\qiniu.config");
 
-				var serializer = new DataContractJsonSerializer(typeof(QiniuInfo));// json deserialize
-				var mStream = new MemoryStream(Encoding.Default.GetBytes(In_json));
-				i_QiniuInfo = (QiniuInfo)serializer.ReadObject(mStream);
+					var serializer = new DataContractJsonSerializer(typeof(QiniuInfo));// json deserialize
+					var mStream = new MemoryStream(Encoding.Default.GetBytes(In_json));
+					try
+					{
+						i_QiniuInfo = (QiniuInfo)serializer.ReadObject(mStream);
+					}
+					catch (Exception)
+					{
+						i_QiniuInfo.AK = "";
+						i_QiniuInfo.SK = "";
+						i_QiniuInfo.Bucket_name = "";
+						i_QiniuInfo.Bucket_url = "";
+						i_QiniuInfo.Folder_name = "";
+					}
+					
+				}
+				else
+				{
+					i_QiniuInfo.AK = "";
+					i_QiniuInfo.SK = "";
+					i_QiniuInfo.Bucket_name = "";
+					i_QiniuInfo.Bucket_url = "";
+					i_QiniuInfo.Folder_name = "";
+				}
 
 				textBox_AK.Text = i_QiniuInfo.AK;
 				textBox_SK.Text = i_QiniuInfo.SK;
@@ -114,7 +137,7 @@ namespace qiniu_upload_csharp
 				HttpResult result = target.UploadFile(System.Environment.CurrentDirectory + @"\Clipboard_image.png", filename, token, null);
 				string Clipboard_out = "![](http://" + i_QiniuInfo.Bucket_url + "/" + filename + ")";
 				Clipboard.SetText(Clipboard_out);
-				if(File.Exists(System.Environment.CurrentDirectory + @"\Clipboard_image.png"))
+				if (File.Exists(System.Environment.CurrentDirectory + @"\Clipboard_image.png"))
 				{
 					File.Delete(System.Environment.CurrentDirectory + @"\Clipboard_image.png");
 				}

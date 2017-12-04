@@ -134,6 +134,7 @@
 			this.textBox_AK.Name = "textBox_AK";
 			this.textBox_AK.Size = new System.Drawing.Size(250, 21);
 			this.textBox_AK.TabIndex = 5;
+			this.textBox_AK.TextChanged += new System.EventHandler(this.textBox_AK_TextChanged);
 			// 
 			// Form1
 			// 
