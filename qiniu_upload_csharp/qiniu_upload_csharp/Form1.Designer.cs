@@ -63,29 +63,29 @@
 			// label_bucket_name
 			// 
 			this.label_bucket_name.AutoSize = true;
-			this.label_bucket_name.Location = new System.Drawing.Point(21, 82);
+			this.label_bucket_name.Location = new System.Drawing.Point(27, 82);
 			this.label_bucket_name.Name = "label_bucket_name";
-			this.label_bucket_name.Size = new System.Drawing.Size(83, 12);
+			this.label_bucket_name.Size = new System.Drawing.Size(77, 12);
 			this.label_bucket_name.TabIndex = 2;
-			this.label_bucket_name.Text = "Bucket_Name：";
+			this.label_bucket_name.Text = "BucketName：";
 			// 
 			// label_bucket_url
 			// 
 			this.label_bucket_url.AutoSize = true;
-			this.label_bucket_url.Location = new System.Drawing.Point(27, 115);
+			this.label_bucket_url.Location = new System.Drawing.Point(33, 115);
 			this.label_bucket_url.Name = "label_bucket_url";
-			this.label_bucket_url.Size = new System.Drawing.Size(77, 12);
+			this.label_bucket_url.Size = new System.Drawing.Size(71, 12);
 			this.label_bucket_url.TabIndex = 3;
-			this.label_bucket_url.Text = "Bucket_URL：";
+			this.label_bucket_url.Text = "BucketURL：";
 			// 
 			// label_folder_name
 			// 
 			this.label_folder_name.AutoSize = true;
-			this.label_folder_name.Location = new System.Drawing.Point(21, 148);
+			this.label_folder_name.Location = new System.Drawing.Point(27, 148);
 			this.label_folder_name.Name = "label_folder_name";
-			this.label_folder_name.Size = new System.Drawing.Size(83, 12);
+			this.label_folder_name.Size = new System.Drawing.Size(77, 12);
 			this.label_folder_name.TabIndex = 4;
-			this.label_folder_name.Text = "Folder_name：";
+			this.label_folder_name.Text = "FolderName：";
 			// 
 			// textBox_SK
 			// 

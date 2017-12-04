@@ -120,6 +120,7 @@
     <Compile Include="Storage\Zone.cs" />
     <Compile Include="Storage\ZoneHelper.cs" />
     <Compile Include="Storage\ZoneInfo.cs" />
+    <Compile Include="Uploader.cs" />
     <Compile Include="Util\Auth.cs" />
     <Compile Include="Util\Base64.cs" />
     <Compile Include="Util\CRC32.cs" />
