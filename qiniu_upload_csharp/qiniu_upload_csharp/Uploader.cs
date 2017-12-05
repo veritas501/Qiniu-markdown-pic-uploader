@@ -68,7 +68,7 @@ namespace qiniu_upload_csharp
 			Config config = new Config
 			{
 				// 设置上传区域
-				Zone = Zone.ZONE_CN_East,
+				//Zone = Zone.ZONE_CN_East,
 				// 设置 http 或者 https 上传
 				UseHttps = true,
 				UseCdnDomains = true,
@@ -120,7 +120,7 @@ namespace qiniu_upload_csharp
 				Config config = new Config
 				{
 					// 设置上传区域
-					Zone = Zone.ZONE_CN_East,
+					//Zone = Zone.ZONE_CN_East,
 					// 设置 http 或者 https 上传
 					UseHttps = true,
 					UseCdnDomains = true,
