@@ -31,6 +31,11 @@ namespace qiniu_upload_csharp
 			hWnd = InhWnd;
 		}
 
+		public void UpdatehWnd(IntPtr InhWnd)
+		{
+			hWnd = InhWnd;
+		}
+
 		public void RegHotKey()
 		{
 			

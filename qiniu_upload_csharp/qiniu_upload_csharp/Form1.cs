@@ -405,6 +405,8 @@ namespace qiniu_upload_csharp
 				this.Activate();
 				this.ShowInTaskbar = true;
 				notifyIcon1.Visible = false;
+				HK.UpdatehWnd(this.Handle);
+				HK.RegHotKey();
 			}
 		}
 
@@ -414,6 +416,8 @@ namespace qiniu_upload_csharp
 			{
 				this.ShowInTaskbar = false;
 				notifyIcon1.Visible = true;
+				HK.UpdatehWnd(this.Handle);
+				HK.RegHotKey();
 			}
 		}
 
@@ -423,6 +427,8 @@ namespace qiniu_upload_csharp
 			this.Activate();
 			this.ShowInTaskbar = true;
 			notifyIcon1.Visible = false;
+			HK.UpdatehWnd(this.Handle);
+			HK.RegHotKey();
 		}
 
 		private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
