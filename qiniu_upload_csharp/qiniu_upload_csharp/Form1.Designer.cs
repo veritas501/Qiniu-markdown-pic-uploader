@@ -51,10 +51,18 @@
 			this.label_SK = new System.Windows.Forms.Label();
 			this.label_folder_name = new System.Windows.Forms.Label();
 			this.label_bucket_name = new System.Windows.Forms.Label();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.button1 = new System.Windows.Forms.Button();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
+			this.tabPage3.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -64,6 +72,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Controls.Add(this.tabPage3);
+			this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
 			this.tabControl1.Location = new System.Drawing.Point(12, 12);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
@@ -282,6 +292,64 @@
 			this.label_bucket_name.TabIndex = 12;
 			this.label_bucket_name.Text = "BucketName：";
 			// 
+			// tabPage3
+			// 
+			this.tabPage3.Controls.Add(this.groupBox3);
+			this.tabPage3.Controls.Add(this.groupBox2);
+			this.tabPage3.Location = new System.Drawing.Point(4, 22);
+			this.tabPage3.Name = "tabPage3";
+			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage3.Size = new System.Drawing.Size(388, 227);
+			this.tabPage3.TabIndex = 2;
+			this.tabPage3.Text = "Tools";
+			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.button1);
+			this.groupBox2.Controls.Add(this.textBox1);
+			this.groupBox2.Controls.Add(this.label4);
+			this.groupBox2.Location = new System.Drawing.Point(18, 17);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(349, 76);
+			this.groupBox2.TabIndex = 0;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "批量删除指定前缀（FolderName）：";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(15, 36);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(77, 12);
+			this.label4.TabIndex = 0;
+			this.label4.Text = "FolderName：";
+			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(98, 33);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(129, 21);
+			this.textBox1.TabIndex = 1;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(254, 33);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 2;
+			this.button1.Text = "删除";
+			this.button1.UseVisualStyleBackColor = true;
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Location = new System.Drawing.Point(18, 110);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(349, 100);
+			this.groupBox3.TabIndex = 1;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "文件上传：";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -303,6 +371,9 @@
 			this.groupBox1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
+			this.tabPage3.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -330,6 +401,12 @@
 		private System.Windows.Forms.CheckBox checkBoxMain;
 		private System.Windows.Forms.ComboBox comboBox_func2;
 		private System.Windows.Forms.ComboBox comboBox_func1;
+		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Label label4;
 	}
 }
 
