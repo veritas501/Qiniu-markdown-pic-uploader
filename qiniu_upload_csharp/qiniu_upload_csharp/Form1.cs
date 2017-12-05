@@ -158,7 +158,118 @@ namespace qiniu_upload_csharp
 						}
 						else
 						{
-							Console.WriteLine(((byte)ProgramConfig.OutConfig.HKStruct.KeyCode).ToString());
+							HK.UnRegHotKey();
+							keybd_event((byte)ProgramConfig.OutConfig.HKStruct.KeyCode, 0, 0, 0);
+							switch (ProgramConfig.OutConfig.HKStruct.ControlKey1){
+								case 1:
+									{
+										keybd_event((byte)Keys.Menu, 0, 0, 0);
+										break;
+									}
+								case 2:
+									{
+										keybd_event((byte)Keys.ControlKey, 0, 0, 0);
+										break;
+									}
+								case 4:
+									{
+										keybd_event((byte)Keys.ShiftKey, 0, 0, 0);
+										break;
+									}
+								case 8:
+									{
+										keybd_event((byte)Keys.LWin, 0, 0, 0);
+										break;
+									}
+								default:
+									{
+										break;
+									}
+							}
+							switch (ProgramConfig.OutConfig.HKStruct.ControlKey2)
+							{
+								case 1:
+									{
+										keybd_event((byte)Keys.Menu, 0, 0, 0);
+										break;
+									}
+								case 2:
+									{
+										keybd_event((byte)Keys.ControlKey, 0, 0, 0);
+										break;
+									}
+								case 4:
+									{
+										keybd_event((byte)Keys.ShiftKey, 0, 0, 0);
+										break;
+									}
+								case 8:
+									{
+										keybd_event((byte)Keys.LWin, 0, 0, 0);
+										break;
+									}
+								default:
+									{
+										break;
+									}
+							}
+
+							keybd_event((byte)ProgramConfig.OutConfig.HKStruct.KeyCode, 0, 2, 0);
+							switch (ProgramConfig.OutConfig.HKStruct.ControlKey1)
+							{
+								case 1:
+									{
+										keybd_event((byte)Keys.Menu, 0, 2, 0);
+										break;
+									}
+								case 2:
+									{
+										keybd_event((byte)Keys.ControlKey, 0, 2, 0);
+										break;
+									}
+								case 4:
+									{
+										keybd_event((byte)Keys.ShiftKey, 0, 2, 0);
+										break;
+									}
+								case 8:
+									{
+										keybd_event((byte)Keys.LWin, 0, 2, 0);
+										break;
+									}
+								default:
+									{
+										break;
+									}
+							}
+							switch (ProgramConfig.OutConfig.HKStruct.ControlKey2)
+							{
+								case 1:
+									{
+										keybd_event((byte)Keys.Menu, 0, 2, 0);
+										break;
+									}
+								case 2:
+									{
+										keybd_event((byte)Keys.ControlKey, 0, 2, 0);
+										break;
+									}
+								case 4:
+									{
+										keybd_event((byte)Keys.ShiftKey, 0, 2, 0);
+										break;
+									}
+								case 8:
+									{
+										keybd_event((byte)Keys.LWin, 0, 2, 0);
+										break;
+									}
+								default:
+									{
+										break;
+									}
+							}
+							HK.RegHotKey();
 						}
 					}
 					break;
