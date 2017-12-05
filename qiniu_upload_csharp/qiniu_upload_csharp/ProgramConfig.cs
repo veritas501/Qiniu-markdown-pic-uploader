@@ -83,7 +83,7 @@ namespace qiniu_upload_csharp
 					OutConfig.UPStruct.FolderName = "";
 					OutConfig.HKStruct.KeyCode = Keys.V;
 					OutConfig.HKStruct.ControlKey1 = (uint)ControlKey.MOD_CONTROL;
-					OutConfig.HKStruct.ControlKey2 = (uint)ControlKey.MOD_SHIFT;
+					OutConfig.HKStruct.ControlKey2 = (uint)ControlKey.none;
 				}
 				
 			}
@@ -97,7 +97,7 @@ namespace qiniu_upload_csharp
 				OutConfig.UPStruct.FolderName = "";
 				OutConfig.HKStruct.KeyCode = Keys.V;
 				OutConfig.HKStruct.ControlKey1 = (uint)ControlKey.MOD_CONTROL;
-				OutConfig.HKStruct.ControlKey2 = (uint)ControlKey.MOD_SHIFT;
+				OutConfig.HKStruct.ControlKey2 = (uint)ControlKey.none;
 			}
 
 		}
