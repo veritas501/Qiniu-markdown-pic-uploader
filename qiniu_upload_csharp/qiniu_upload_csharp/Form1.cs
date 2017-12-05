@@ -145,7 +145,6 @@ namespace qiniu_upload_csharp
 						//触发热键
 						if (UP.UploadAndPaste())
 						{
-
 							HK.UnRegHotKey();
 
 							byte VK_CONTROL = 0x11;
@@ -156,8 +155,10 @@ namespace qiniu_upload_csharp
 							keybd_event(V_key, 0, 2, 0);
 
 							HK.RegHotKey();
-							break;
-
+						}
+						else
+						{
+							Console.WriteLine(((byte)ProgramConfig.OutConfig.HKStruct.KeyCode).ToString());
 						}
 					}
 					break;
@@ -268,6 +269,10 @@ namespace qiniu_upload_csharp
 			if (checkBoxMain.Checked)
 			{
 				checkBoxMain.Text = "等待按下主键";
+			}
+			else
+			{
+				checkBoxMain.Text = ProgramConfig.OutConfig.HKStruct.KeyCode.ToString();
 			}
 		}
 

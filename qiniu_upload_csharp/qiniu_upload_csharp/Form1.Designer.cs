@@ -33,6 +33,8 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.buttonGeneralSave = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.comboBox_func2 = new System.Windows.Forms.ComboBox();
+			this.comboBox_func1 = new System.Windows.Forms.ComboBox();
 			this.checkBoxMain = new System.Windows.Forms.CheckBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -49,8 +51,6 @@
 			this.label_SK = new System.Windows.Forms.Label();
 			this.label_folder_name = new System.Windows.Forms.Label();
 			this.label_bucket_name = new System.Windows.Forms.Label();
-			this.comboBox_func1 = new System.Windows.Forms.ComboBox();
-			this.comboBox_func2 = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
@@ -108,6 +108,24 @@
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "设置粘贴热键";
+			// 
+			// comboBox_func2
+			// 
+			this.comboBox_func2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_func2.FormattingEnabled = true;
+			this.comboBox_func2.Location = new System.Drawing.Point(74, 85);
+			this.comboBox_func2.Name = "comboBox_func2";
+			this.comboBox_func2.Size = new System.Drawing.Size(121, 20);
+			this.comboBox_func2.TabIndex = 8;
+			// 
+			// comboBox_func1
+			// 
+			this.comboBox_func1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_func1.FormattingEnabled = true;
+			this.comboBox_func1.Location = new System.Drawing.Point(74, 55);
+			this.comboBox_func1.Name = "comboBox_func1";
+			this.comboBox_func1.Size = new System.Drawing.Size(121, 20);
+			this.comboBox_func1.TabIndex = 7;
 			// 
 			// checkBoxMain
 			// 
@@ -263,22 +281,6 @@
 			this.label_bucket_name.Size = new System.Drawing.Size(77, 12);
 			this.label_bucket_name.TabIndex = 12;
 			this.label_bucket_name.Text = "BucketName：";
-			// 
-			// comboBox_func1
-			// 
-			this.comboBox_func1.FormattingEnabled = true;
-			this.comboBox_func1.Location = new System.Drawing.Point(74, 55);
-			this.comboBox_func1.Name = "comboBox_func1";
-			this.comboBox_func1.Size = new System.Drawing.Size(121, 20);
-			this.comboBox_func1.TabIndex = 7;
-			// 
-			// comboBox_func2
-			// 
-			this.comboBox_func2.FormattingEnabled = true;
-			this.comboBox_func2.Location = new System.Drawing.Point(74, 85);
-			this.comboBox_func2.Name = "comboBox_func2";
-			this.comboBox_func2.Size = new System.Drawing.Size(121, 20);
-			this.comboBox_func2.TabIndex = 8;
 			// 
 			// Form1
 			// 
