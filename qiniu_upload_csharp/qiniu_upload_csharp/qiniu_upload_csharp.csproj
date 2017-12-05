@@ -78,11 +78,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="HotKey.cs" />
     <Compile Include="Http\ContentType.cs" />
     <Compile Include="Http\HttpCode.cs" />
     <Compile Include="Http\HttpManager.cs" />
     <Compile Include="Http\HttpResult.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QiniuCSharpSDK.cs" />
     <Compile Include="Storage\BatchInfo.cs" />

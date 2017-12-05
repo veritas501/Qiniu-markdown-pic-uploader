@@ -23,77 +23,10 @@ namespace qiniu_upload_csharp
 		public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 		[DllImport("user32.dll")]
 		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
-		public class QiniuInfoStruc
-		{
-			public string AK;
-			public string SK;
-			public string BucketName;
-			public string BucketUrl;
-			public string FolderName;
-		}
 
-		public QiniuInfoStruc QiniuInfo;
-		public string TmpImagePath;
-		public string ConfigPath;
-		private string BucketUrl = "";
 		public Uploader()
 		{
-			TmpImagePath = System.Environment.CurrentDirectory + @"\Clipboard_image.png";
-			ConfigPath = System.Environment.CurrentDirectory + @"\qiniu.config";
-			QiniuInfo = new QiniuInfoStruc();
-		}
-
-		public void UpdateInfo()
-		{
-			string Out_json;
-			string Fmt = "\"AK\": \"{0}\", \"SK\": \"{1}\", \"BucketName\": \"{2}\", \"BucketUrl\": \"{3}\", \"FolderName\": \"{4}\"";
-			Out_json = string.Format(Fmt, QiniuInfo.AK, QiniuInfo.SK, QiniuInfo.BucketName, QiniuInfo.BucketUrl, QiniuInfo.FolderName);
-			Out_json = "{" + Out_json + "}";
-
-			try
-			{
-				File.WriteAllText(ConfigPath, Out_json);
-			}
-			catch (Exception ex)
-			{
-				throw new Exception("UpdateInfo() fail, error:" + ex.Message);
-			}
-		}
-
-		public void InitInfoFromFile(string FilePath = "")
-		{
-			if (FilePath == "")
-			{
-				FilePath = ConfigPath;
-			}
-
-			if (File.Exists(FilePath))
-			{
-				string InJson = File.ReadAllText(FilePath);
-
-				try
-				{
-					QiniuInfo = (QiniuInfoStruc)JsonConvert.DeserializeObject(InJson, typeof(QiniuInfoStruc));
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine(ex);
-					QiniuInfo.AK = "";
-					QiniuInfo.SK = "";
-					QiniuInfo.BucketName = "";
-					QiniuInfo.BucketUrl = "";
-					QiniuInfo.FolderName = "";
-				}
-
-			}
-			else
-			{
-				QiniuInfo.AK = "";
-				QiniuInfo.SK = "";
-				QiniuInfo.BucketName = "";
-				QiniuInfo.BucketUrl = "";
-				QiniuInfo.FolderName = "";
-			}
+			
 		}
 
 		public string GetMD5HashFromFile(string fileName)
@@ -176,12 +109,12 @@ namespace qiniu_upload_csharp
 
 		public string GetBucketURL()
 		{
-			if (BucketUrl == "")
+			if (ProgramConfig.BucketUrl == "")
 			{
-				Mac mac = new Mac(QiniuInfo.AK, QiniuInfo.SK);
+				Mac mac = new Mac(ProgramConfig.OutConfig.UPStruct.AK, ProgramConfig.OutConfig.UPStruct.SK);
 				PutPolicy putPolicy = new PutPolicy
 				{
-					Scope = QiniuInfo.BucketName
+					Scope = ProgramConfig.OutConfig.UPStruct.BucketName
 				};
 				string token = Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
 				Config config = new Config
@@ -195,10 +128,10 @@ namespace qiniu_upload_csharp
 				};
 
 				BucketManager bm = new BucketManager(mac, config);
-				DomainsResult DomainRet = bm.Domains(QiniuInfo.BucketName);
+				DomainsResult DomainRet = bm.Domains(ProgramConfig.OutConfig.UPStruct.BucketName);
 				if (DomainRet.Code == 200)
 				{
-					BucketUrl = DomainRet.Text;
+					ProgramConfig.BucketUrl = DomainRet.Text.Replace("[\"", "").Replace("\"]", "");
 				}
 				else
 				{
@@ -206,7 +139,7 @@ namespace qiniu_upload_csharp
 					return "";
 				}
 			}
-			return BucketUrl.Replace("[\"", "").Replace("\"]", "");
+			return ProgramConfig.BucketUrl;
 		}
 
 
@@ -217,12 +150,12 @@ namespace qiniu_upload_csharp
 			if (Clipboard_image != null)
 			{
 				Console.WriteLine(DateTime.Now + "have image");
-				Clipboard_image.Save(TmpImagePath);
-				string filename = QiniuInfo.FolderName + "_" + GetMD5HashFromFile(TmpImagePath) + ".png";
-				Mac mac = new Mac(QiniuInfo.AK, QiniuInfo.SK);
+				Clipboard_image.Save(ProgramConfig.TmpImagePath);
+				string filename = ProgramConfig.OutConfig.UPStruct.FolderName + "_" + GetMD5HashFromFile(ProgramConfig.TmpImagePath) + ".png";
+				Mac mac = new Mac(ProgramConfig.OutConfig.UPStruct.AK, ProgramConfig.OutConfig.UPStruct.SK);
 				PutPolicy putPolicy = new PutPolicy
 				{
-					Scope = QiniuInfo.BucketName
+					Scope = ProgramConfig.OutConfig.UPStruct.BucketName
 				};
 				string token = Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
 				Config config = new Config
@@ -237,12 +170,22 @@ namespace qiniu_upload_csharp
 
 				// 表单上传
 				FormUploader target = new FormUploader(config);
-				HttpResult result = target.UploadFile(TmpImagePath, filename, token, null);
-				string Clipboard_out = "![](http://" + GetBucketURL() + "/" + filename + ")";
-				Clipboard.SetText(Clipboard_out);
-				if (File.Exists(TmpImagePath))
+				HttpResult result = target.UploadFile(ProgramConfig.TmpImagePath, filename, token, null);
+				string Clipboard_out;
+
+				if (ProgramConfig.OutConfig.MarkdownMode)
 				{
-					File.Delete(TmpImagePath);
+					Clipboard_out = "![](http://" + GetBucketURL() + "/" + filename + ")";
+				}
+				else
+				{
+					Clipboard_out = "http://" + GetBucketURL() + "/" + filename;
+				}
+				
+				Clipboard.SetText(Clipboard_out);
+				if (File.Exists(ProgramConfig.TmpImagePath))
+				{
+					File.Delete(ProgramConfig.TmpImagePath);
 				}
 				return true;
 			}

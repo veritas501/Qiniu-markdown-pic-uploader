@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
 using Qiniu.Storage;
+using static qiniu_upload_csharp.HotKey;
+using Newtonsoft.Json;
+
 namespace qiniu_upload_csharp
 {
 	public partial class Form1 : Form
@@ -22,7 +25,9 @@ namespace qiniu_upload_csharp
 		[DllImport("user32.dll")]
 		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
 
-		Uploader up = new Uploader();
+		HotKey HK;
+		Uploader UP;
+		ProgramConfig programConfig;
 
 		public Form1()
 		{
@@ -31,21 +36,105 @@ namespace qiniu_upload_csharp
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			uint MOD_CONTROL = 0x2;
-			uint MOD_SHIFT = 0x4;
-			RegisterHotKey(this.Handle, 233, MOD_CONTROL | MOD_SHIFT, Keys.V);
 
-			up.InitInfoFromFile();
+			string[] ComboBoxStr = { "None", "Alt", "Ctrl", "Shift", "Win" };
+			comboBox_func1.Items.AddRange(ComboBoxStr);
+			comboBox_func2.Items.AddRange(ComboBoxStr);
+			comboBox_func1.SelectedIndex = 0;
+			comboBox_func2.SelectedIndex = 0;
 
-			textBox_AK.Text = up.QiniuInfo.AK;
-			textBox_SK.Text = up.QiniuInfo.SK;
-			textBox_bucket_name.Text = up.QiniuInfo.BucketName;
-			textBox_folder_name.Text = up.QiniuInfo.FolderName;
+			programConfig = new ProgramConfig();
+
+			HK = new HotKey(this.Handle);
+			UP = new Uploader();
+
+			programConfig.InitInfoFromFile();
+
+			textBox_AK.Text = ProgramConfig.OutConfig.UPStruct.AK;
+			textBox_SK.Text = ProgramConfig.OutConfig.UPStruct.SK;
+			textBox_bucket_name.Text = ProgramConfig.OutConfig.UPStruct.BucketName;
+			textBox_folder_name.Text = ProgramConfig.OutConfig.UPStruct.FolderName;
+
+			checkBox_topmost.Checked = ProgramConfig.OutConfig.TopMost;
+			TopMost = ProgramConfig.OutConfig.TopMost;
+			checkBox_MarkdownMode.Checked = ProgramConfig.OutConfig.MarkdownMode;
+
+			switch (ProgramConfig.OutConfig.HKStruct.ControlKey1)
+			{
+				case 0:
+					{
+						comboBox_func1.SelectedIndex = 0;
+						break;
+					}
+				case 1:
+					{
+						comboBox_func1.SelectedIndex = 1;
+						break;
+					}
+				case 2:
+					{
+						comboBox_func1.SelectedIndex = 2;
+						break;
+					}
+				case 4:
+					{
+						comboBox_func1.SelectedIndex = 3;
+						break;
+					}
+				case 8:
+					{
+						comboBox_func1.SelectedIndex = 4;
+						break;
+					}
+				default:
+					{
+						comboBox_func1.SelectedIndex = 0;
+						break;
+					}
+			}
+
+			switch (ProgramConfig.OutConfig.HKStruct.ControlKey2)
+			{
+				case 0:
+					{
+						comboBox_func2.SelectedIndex = 0;
+						break;
+					}
+				case 1:
+					{
+						comboBox_func2.SelectedIndex = 1;
+						break;
+					}
+				case 2:
+					{
+						comboBox_func2.SelectedIndex = 2;
+						break;
+					}
+				case 4:
+					{
+						comboBox_func2.SelectedIndex = 3;
+						break;
+					}
+				case 8:
+					{
+						comboBox_func2.SelectedIndex = 4;
+						break;
+					}
+				default:
+					{
+						comboBox_func2.SelectedIndex = 0;
+						break;
+					}
+			}
+
+			checkBoxMain.Text = ProgramConfig.OutConfig.HKStruct.KeyCode.ToString();
+
+			HK.RegHotKey();
+
 			this.ActiveControl = label_AK;
 
-
+			
 		}
-
 		protected override void WndProc(ref Message m)
 		{
 			switch (m.Msg)
@@ -54,19 +143,19 @@ namespace qiniu_upload_csharp
 					if (m.WParam.ToString().Equals("233"))
 					{
 						//触发热键
-						if (up.UploadAndPaste())
+						if (UP.UploadAndPaste())
 						{
 
-							UnregisterHotKey(this.Handle, 233);
+							HK.UnRegHotKey();
+
 							byte VK_CONTROL = 0x11;
 							byte V_key = 0x56;
-							keybd_event(VK_CONTROL, 0, 2, 0);
-							keybd_event(V_key, 0, 2, 0);
 							keybd_event(VK_CONTROL, 0, 0, 0);
 							keybd_event(V_key, 0, 0, 0);
 							keybd_event(VK_CONTROL, 0, 2, 0);
 							keybd_event(V_key, 0, 2, 0);
-							RegisterHotKey(this.Handle, 233, 2 | 4, Keys.V);
+
+							HK.RegHotKey();
 							break;
 
 						}
@@ -78,18 +167,117 @@ namespace qiniu_upload_csharp
 
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			UnregisterHotKey(this.Handle, 233);
+			HK.UnRegHotKey();
 		}
 
 		private void buttonQiniuSave_Click(object sender, EventArgs e)
 		{
-			if (up.CheckInfo(textBox_AK.Text, textBox_SK.Text, textBox_bucket_name.Text))
+			if (UP.CheckInfo(textBox_AK.Text, textBox_SK.Text, textBox_bucket_name.Text))
 			{
-				up.QiniuInfo.AK = textBox_AK.Text;
-				up.QiniuInfo.SK = textBox_SK.Text;
-				up.QiniuInfo.BucketName = textBox_bucket_name.Text;
-				up.QiniuInfo.FolderName = textBox_folder_name.Text;
-				up.UpdateInfo();
+				ProgramConfig.OutConfig.UPStruct.AK = textBox_AK.Text;
+				ProgramConfig.OutConfig.UPStruct.SK = textBox_SK.Text;
+				ProgramConfig.OutConfig.UPStruct.BucketName = textBox_bucket_name.Text;
+				ProgramConfig.OutConfig.UPStruct.FolderName = textBox_folder_name.Text;
+				programConfig.UpdateInfo();
+			}
+		}
+
+		private void buttonGeneralSave_Click(object sender, EventArgs e)
+		{
+			ProgramConfig.OutConfig.TopMost = checkBox_topmost.Checked;
+			TopMost = checkBox_topmost.Checked;
+			ProgramConfig.OutConfig.MarkdownMode = checkBox_MarkdownMode.Checked;
+
+			switch (comboBox_func1.SelectedIndex)
+			{
+				case 0:
+					{
+
+						ProgramConfig.OutConfig.HKStruct.ControlKey1 = 0;
+						break;
+					}
+				case 1:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey1 = 1;
+						break;
+					}
+				case 2:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey1 = 2;
+						break;
+					}
+				case 3:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey1 = 4;
+						break;
+					}
+				case 4:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey1 = 8;
+						break;
+					}
+				default:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey1 = 0;
+						break;
+					}
+			}
+
+			switch (comboBox_func2.SelectedIndex)
+			{
+				case 0:
+					{
+
+						ProgramConfig.OutConfig.HKStruct.ControlKey2 = 0;
+						break;
+					}
+				case 1:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey2 = 1;
+						break;
+					}
+				case 2:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey2 = 2;
+						break;
+					}
+				case 3:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey2 = 4;
+						break;
+					}
+				case 4:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey2 = 8;
+						break;
+					}
+				default:
+					{
+						ProgramConfig.OutConfig.HKStruct.ControlKey2 = 0;
+						break;
+					}
+			}
+
+			HK.RegHotKey();
+			programConfig.UpdateInfo();
+			MessageBox.Show("Information saved!", "Success:", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void checkBoxMain_CheckedChanged(object sender, EventArgs e)
+		{
+			if (checkBoxMain.Checked)
+			{
+				checkBoxMain.Text = "等待按下主键";
+			}
+		}
+
+		private void checkBoxMain_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (checkBoxMain.Checked)
+			{
+				checkBoxMain.Text = e.KeyCode.ToString();
+				ProgramConfig.OutConfig.HKStruct.KeyCode = e.KeyCode;
+				checkBoxMain.Checked = false;
 			}
 		}
 	}
