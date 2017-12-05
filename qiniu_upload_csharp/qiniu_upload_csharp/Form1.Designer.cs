@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -51,10 +52,15 @@
 			this.label_SK = new System.Windows.Forms.Label();
 			this.label_folder_name = new System.Windows.Forms.Label();
 			this.label_bucket_name = new System.Windows.Forms.Label();
+			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.显示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
+			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -64,6 +70,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
 			this.tabControl1.Location = new System.Drawing.Point(12, 12);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
@@ -282,6 +289,36 @@
 			this.label_bucket_name.TabIndex = 12;
 			this.label_bucket_name.Text = "BucketName：";
 			// 
+			// notifyIcon1
+			// 
+			this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+			this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+			this.notifyIcon1.Text = "Qiniu Pic Markdown Uploader";
+			this.notifyIcon1.Visible = true;
+			this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+			// 
+			// contextMenuStrip1
+			// 
+			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.显示ToolStripMenuItem,
+            this.退出ToolStripMenuItem});
+			this.contextMenuStrip1.Name = "contextMenuStrip1";
+			this.contextMenuStrip1.Size = new System.Drawing.Size(101, 48);
+			// 
+			// 显示ToolStripMenuItem
+			// 
+			this.显示ToolStripMenuItem.Name = "显示ToolStripMenuItem";
+			this.显示ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.显示ToolStripMenuItem.Text = "显示";
+			this.显示ToolStripMenuItem.Click += new System.EventHandler(this.显示ToolStripMenuItem_Click);
+			// 
+			// 退出ToolStripMenuItem
+			// 
+			this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+			this.退出ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.退出ToolStripMenuItem.Text = "退出";
+			this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -293,9 +330,10 @@
 			this.MaximizeBox = false;
 			this.Name = "Form1";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Qiniu Pic Markdown Uploader ver0.22";
+			this.Text = "Qiniu Pic Markdown Uploader ver1.0";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
 			this.Load += new System.EventHandler(this.Form1_Load);
+			this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
@@ -303,6 +341,7 @@
 			this.groupBox1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
+			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -330,6 +369,10 @@
 		private System.Windows.Forms.CheckBox checkBoxMain;
 		private System.Windows.Forms.ComboBox comboBox_func2;
 		private System.Windows.Forms.ComboBox comboBox_func1;
+		private System.Windows.Forms.NotifyIcon notifyIcon1;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem 显示ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
 	}
 }
 
