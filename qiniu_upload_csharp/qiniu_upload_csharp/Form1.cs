@@ -396,5 +396,50 @@ namespace qiniu_upload_csharp
 				checkBoxMain.Checked = false;
 			}
 		}
+
+		private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			if (WindowState == FormWindowState.Minimized)
+			{ 
+				WindowState = FormWindowState.Normal;
+				this.Activate();
+				this.ShowInTaskbar = true;
+				notifyIcon1.Visible = false;
+				HK.UpdatehWnd(this.Handle);
+				HK.RegHotKey();
+			}
+		}
+
+		private void Form1_SizeChanged(object sender, EventArgs e)
+		{
+			if (WindowState == FormWindowState.Minimized)
+			{
+				this.ShowInTaskbar = false;
+				notifyIcon1.Visible = true;
+				HK.UpdatehWnd(this.Handle);
+				HK.RegHotKey();
+			}
+		}
+
+		private void 显示ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			WindowState = FormWindowState.Normal;
+			this.Activate();
+			this.ShowInTaskbar = true;
+			notifyIcon1.Visible = false;
+			HK.UpdatehWnd(this.Handle);
+			HK.RegHotKey();
+		}
+
+		private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("是否确认退出程序？", "退出", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+			{
+				HK.UnRegHotKey();
+				this.Dispose();
+				this.Close();
+			}
+		}
+
 	}
 }

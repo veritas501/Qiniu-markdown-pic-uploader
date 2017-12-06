@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -51,18 +52,15 @@
 			this.label_SK = new System.Windows.Forms.Label();
 			this.label_folder_name = new System.Windows.Forms.Label();
 			this.label_bucket_name = new System.Windows.Forms.Label();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.label4 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.button1 = new System.Windows.Forms.Button();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.显示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
-			this.tabPage3.SuspendLayout();
-			this.groupBox2.SuspendLayout();
+			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -72,7 +70,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
 			this.tabControl1.Location = new System.Drawing.Point(12, 12);
 			this.tabControl1.Name = "tabControl1";
@@ -292,63 +289,35 @@
 			this.label_bucket_name.TabIndex = 12;
 			this.label_bucket_name.Text = "BucketName：";
 			// 
-			// tabPage3
+			// notifyIcon1
 			// 
-			this.tabPage3.Controls.Add(this.groupBox3);
-			this.tabPage3.Controls.Add(this.groupBox2);
-			this.tabPage3.Location = new System.Drawing.Point(4, 22);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(388, 227);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "Tools";
-			this.tabPage3.UseVisualStyleBackColor = true;
+			this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+			this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+			this.notifyIcon1.Text = "Qiniu Pic Markdown Uploader";
+			this.notifyIcon1.Visible = true;
+			this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
 			// 
-			// groupBox2
+			// contextMenuStrip1
 			// 
-			this.groupBox2.Controls.Add(this.button1);
-			this.groupBox2.Controls.Add(this.textBox1);
-			this.groupBox2.Controls.Add(this.label4);
-			this.groupBox2.Location = new System.Drawing.Point(18, 17);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(349, 76);
-			this.groupBox2.TabIndex = 0;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "批量删除指定前缀（FolderName）：";
+			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.显示ToolStripMenuItem,
+            this.退出ToolStripMenuItem});
+			this.contextMenuStrip1.Name = "contextMenuStrip1";
+			this.contextMenuStrip1.Size = new System.Drawing.Size(101, 48);
 			// 
-			// label4
+			// 显示ToolStripMenuItem
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(15, 36);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(77, 12);
-			this.label4.TabIndex = 0;
-			this.label4.Text = "FolderName：";
+			this.显示ToolStripMenuItem.Name = "显示ToolStripMenuItem";
+			this.显示ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.显示ToolStripMenuItem.Text = "显示";
+			this.显示ToolStripMenuItem.Click += new System.EventHandler(this.显示ToolStripMenuItem_Click);
 			// 
-			// textBox1
+			// 退出ToolStripMenuItem
 			// 
-			this.textBox1.Location = new System.Drawing.Point(98, 33);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(129, 21);
-			this.textBox1.TabIndex = 1;
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(254, 33);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "删除";
-			this.button1.UseVisualStyleBackColor = true;
-			// 
-			// groupBox3
-			// 
-			this.groupBox3.Location = new System.Drawing.Point(18, 110);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(349, 100);
-			this.groupBox3.TabIndex = 1;
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "文件上传：";
+			this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+			this.退出ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.退出ToolStripMenuItem.Text = "退出";
+			this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -361,9 +330,10 @@
 			this.MaximizeBox = false;
 			this.Name = "Form1";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Qiniu Pic Markdown Uploader ver0.22";
+			this.Text = "Qiniu Pic Markdown Uploader ver1.0.1";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
 			this.Load += new System.EventHandler(this.Form1_Load);
+			this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
@@ -371,9 +341,7 @@
 			this.groupBox1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
-			this.tabPage3.ResumeLayout(false);
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
+			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -401,12 +369,10 @@
 		private System.Windows.Forms.CheckBox checkBoxMain;
 		private System.Windows.Forms.ComboBox comboBox_func2;
 		private System.Windows.Forms.ComboBox comboBox_func1;
-		private System.Windows.Forms.TabPage tabPage3;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.NotifyIcon notifyIcon1;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem 显示ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
 	}
 }
 
