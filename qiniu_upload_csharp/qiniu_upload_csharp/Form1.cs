@@ -12,6 +12,7 @@ using System.IO;
 using Qiniu.Storage;
 using static qiniu_upload_csharp.HotKey;
 using Newtonsoft.Json;
+using Qiniu.Util;
 
 namespace qiniu_upload_csharp
 {
@@ -54,6 +55,8 @@ namespace qiniu_upload_csharp
 			textBox_SK.Text = ProgramConfig.OutConfig.UPStruct.SK;
 			textBox_bucket_name.Text = ProgramConfig.OutConfig.UPStruct.BucketName;
 			textBox_folder_name.Text = ProgramConfig.OutConfig.UPStruct.FolderName;
+            comboBox_Domain.Items.Add(ProgramConfig.OutConfig.UPStruct.Domain);
+            comboBox_Domain.SelectedIndex = 0;
 
 			checkBox_topmost.Checked = ProgramConfig.OutConfig.TopMost;
 			TopMost = ProgramConfig.OutConfig.TopMost;
@@ -284,12 +287,13 @@ namespace qiniu_upload_csharp
 
 		private void buttonQiniuSave_Click(object sender, EventArgs e)
 		{
-			if (UP.CheckInfo(textBox_AK.Text, textBox_SK.Text, textBox_bucket_name.Text))
+			if (UP.CheckInfo(textBox_AK.Text, textBox_SK.Text, textBox_bucket_name.Text) && comboBox_Domain.Text != "")
 			{
 				ProgramConfig.OutConfig.UPStruct.AK = textBox_AK.Text;
 				ProgramConfig.OutConfig.UPStruct.SK = textBox_SK.Text;
 				ProgramConfig.OutConfig.UPStruct.BucketName = textBox_bucket_name.Text;
 				ProgramConfig.OutConfig.UPStruct.FolderName = textBox_folder_name.Text;
+                ProgramConfig.OutConfig.UPStruct.Domain = comboBox_Domain.Text;
 				programConfig.UpdateInfo();
 			}
 		}
@@ -441,5 +445,34 @@ namespace qiniu_upload_csharp
 			}
 		}
 
-	}
+        private void comboBox_Domain_Click(object sender, EventArgs e)
+        {
+            if(textBox_AK.Text != "" && textBox_SK.Text != "" && textBox_bucket_name.Text != "")
+            {
+                comboBox_Domain.Items.Clear();
+                comboBox_Domain.Items.Add("Loading...");
+                Mac mac = new Mac(textBox_AK.Text, textBox_SK.Text);
+                Config config = new Config
+                {
+                    // 设置上传区域
+                    //Zone = Zone.ZONE_CN_East,
+                    // 设置 http 或者 https 上传
+                    UseHttps = true,
+                    UseCdnDomains = true,
+                    ChunkSize = ChunkUnit.U512K
+                };
+                BucketManager bm = new BucketManager(mac, config);
+                DomainsResult DomainRet = bm.Domains(textBox_bucket_name.Text);
+                comboBox_Domain.Items.Clear();
+                if (DomainRet.Result != null)
+                {
+                    for (int i = 0; i < DomainRet.Result.Count; i++)
+                    {
+                        comboBox_Domain.Items.Add(DomainRet.Result[i]);
+                    }
+                }
+                
+            }
+        }
+    }
 }

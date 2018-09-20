@@ -19,6 +19,7 @@ namespace qiniu_upload_csharp
 			public string SK;
 			public string BucketName;
 			public string FolderName;
+            public string Domain;
 		}
 
 		public class HotKeyStruct
@@ -38,7 +39,6 @@ namespace qiniu_upload_csharp
 
 		public static string TmpImagePath;
 		public static string ConfigPath;
-		public static string BucketUrl;
 
 		public static OutConfigStruct OutConfig;
 
@@ -52,7 +52,6 @@ namespace qiniu_upload_csharp
 			};
 			TmpImagePath = System.Environment.CurrentDirectory + @"\Clipboard_image.png";
 			ConfigPath = System.Environment.CurrentDirectory + @"\qiniu.config";
-			BucketUrl = "";
 		}
 
 		public void InitInfoFromFile()
@@ -69,7 +68,8 @@ namespace qiniu_upload_csharp
 					OutConfig.UPStruct.SK = modelDy["UPStruct"]["SK"];
 					OutConfig.UPStruct.BucketName = modelDy["UPStruct"]["BucketName"];
 					OutConfig.UPStruct.FolderName = modelDy["UPStruct"]["FolderName"];
-					OutConfig.HKStruct.KeyCode = (Keys)modelDy["HKStruct"]["KeyCode"];
+                    OutConfig.UPStruct.Domain = modelDy["UPStruct"]["Domain"];
+                    OutConfig.HKStruct.KeyCode = (Keys)modelDy["HKStruct"]["KeyCode"];
 					OutConfig.HKStruct.ControlKey1 = (uint)modelDy["HKStruct"]["ControlKey1"];
 					OutConfig.HKStruct.ControlKey2 = (uint)modelDy["HKStruct"]["ControlKey2"];
 				}
@@ -81,7 +81,8 @@ namespace qiniu_upload_csharp
 					OutConfig.UPStruct.SK = "";
 					OutConfig.UPStruct.BucketName = "";
 					OutConfig.UPStruct.FolderName = "";
-					OutConfig.HKStruct.KeyCode = Keys.V;
+                    OutConfig.UPStruct.Domain = "";
+                    OutConfig.HKStruct.KeyCode = Keys.V;
 					OutConfig.HKStruct.ControlKey1 = (uint)ControlKey.MOD_CONTROL;
 					OutConfig.HKStruct.ControlKey2 = (uint)ControlKey.none;
 				}
@@ -95,7 +96,8 @@ namespace qiniu_upload_csharp
 				OutConfig.UPStruct.SK = "";
 				OutConfig.UPStruct.BucketName = "";
 				OutConfig.UPStruct.FolderName = "";
-				OutConfig.HKStruct.KeyCode = Keys.V;
+                OutConfig.UPStruct.Domain = "";
+                OutConfig.HKStruct.KeyCode = Keys.V;
 				OutConfig.HKStruct.ControlKey1 = (uint)ControlKey.MOD_CONTROL;
 				OutConfig.HKStruct.ControlKey2 = (uint)ControlKey.none;
 			}

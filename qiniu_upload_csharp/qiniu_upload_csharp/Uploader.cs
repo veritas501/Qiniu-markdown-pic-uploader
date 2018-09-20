@@ -109,37 +109,7 @@ namespace qiniu_upload_csharp
 
 		public string GetBucketURL()
 		{
-			if (ProgramConfig.BucketUrl == "")
-			{
-				Mac mac = new Mac(ProgramConfig.OutConfig.UPStruct.AK, ProgramConfig.OutConfig.UPStruct.SK);
-				PutPolicy putPolicy = new PutPolicy
-				{
-					Scope = ProgramConfig.OutConfig.UPStruct.BucketName
-				};
-				string token = Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
-				Config config = new Config
-				{
-					// 设置上传区域
-					//Zone = Zone.ZONE_CN_East,
-					// 设置 http 或者 https 上传
-					UseHttps = true,
-					UseCdnDomains = true,
-					ChunkSize = ChunkUnit.U512K
-				};
-
-				BucketManager bm = new BucketManager(mac, config);
-				DomainsResult DomainRet = bm.Domains(ProgramConfig.OutConfig.UPStruct.BucketName);
-				if (DomainRet.Code == 200)
-				{
-					ProgramConfig.BucketUrl = DomainRet.Text.Replace("[\"", "").Replace("\"]", "");
-				}
-				else
-				{
-					MessageBox.Show(DomainRet.Text, "ERROR:", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return "";
-				}
-			}
-			return ProgramConfig.BucketUrl;
+			return ProgramConfig.OutConfig.UPStruct.Domain;
 		}
 
 
